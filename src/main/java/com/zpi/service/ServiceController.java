@@ -2,10 +2,16 @@ package com.zpi.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +80,24 @@ public class ServiceController
         return "String z servera";
 
     }*/
+
+
+//PRZYKLAD DO ZDJEC
+    @RequestMapping(value = "/Image/", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage() throws IOException {
+
+//        BufferedImage bImage = ImageIO.read(new File("\\com\\zpi\\controller\\beautiful-beauty-blue-414612.jpg"));
+
+
+        BufferedImage bImage = ImageIO.read(new File( "C:\\Users\\Asus\\Desktop\\zdjecia\\zdj1.jpg"));
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "jpg", bos );
+
+        byte [] data = bos.toByteArray();
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(data);
+    }
+
 
 }
