@@ -2,6 +2,7 @@ package com.zpi.service;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zpi.category.Category;
 import com.zpi.favourite.Favourite;
@@ -39,11 +40,13 @@ public class Service
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "category_name", nullable = false)
     @JsonManagedReference
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "subcategory_name", nullable = true)
     @JsonManagedReference
     private Subcategory subcategory;
