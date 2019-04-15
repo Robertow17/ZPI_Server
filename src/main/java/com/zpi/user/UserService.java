@@ -32,7 +32,6 @@ public class UserService
         return userRepository.save(user);
     }
 
-
     public void deleteById(String login)
     {
         userRepository.deleteById(login);

@@ -1,8 +1,7 @@
 package com.zpi.user;
 
-import com.zpi.category.Category;
-import com.zpi.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,52 +20,48 @@ public class UserController
 
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody User user)
+    public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO userDTO)
     {
-        return ResponseEntity.ok(userService.save(user));
+        userService.save(UserMapper.INSTANCE.toUser(userDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAll()
+    public ResponseEntity<List<UserDTO>> getAll()
     {
-        return ResponseEntity.ok(userService.findAll());
+        return ResponseEntity.ok(UserMapper.INSTANCE.toUserDTOs(userService.findAll()));
     }
 
     @GetMapping("/{login}")
-    public ResponseEntity<User> findById(@PathVariable(value = "login") String login)
+    public ResponseEntity<UserDTO> findById(@PathVariable(value = "login") String login)
     {
         Optional<User> user = userService.findById(login);
+
         if(!user.isPresent())
         {
             ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(user.get());
+        return ResponseEntity.ok(UserMapper.INSTANCE.toUserDTO(user.get()));
     }
 
     @PutMapping("/{login}")
-    public ResponseEntity<User> update(@PathVariable(value = "login") String login, @Valid @RequestBody User user)
+    public ResponseEntity<UserDTO> update(@PathVariable(value = "login") String login, @Valid @RequestBody UserDTO userDTO)
     {
-        if(!userService.findById(login).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
+        User user = UserMapper.INSTANCE.toUser(userDTO);
+        user.setLogin(login);
+        userService.save(user);
 
-        return ResponseEntity.ok(userService.save(user));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDTO);
     }
 
     @DeleteMapping("/{login}")
     public ResponseEntity delete(@PathVariable(value = "login") String login)
     {
-        if(!userService.findById(login).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
-
         userService.deleteById(login);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 }

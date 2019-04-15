@@ -21,9 +21,9 @@ public class SubcategoryService
     }
 
 
-    public Optional<Subcategory> findById(int id)
+    public Optional<Subcategory> findById(String id)
     {
-        return subcategoryRepository.findById(id);
+        return subcategoryRepository.findByName(id);
 
     }
 
@@ -34,9 +34,9 @@ public class SubcategoryService
     }
 
 
-    public void deleteById(int id)
+    public void deleteById(String id)
     {
-        subcategoryRepository.deleteById(id);
+        subcategoryRepository.deleteByName(id);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.zpi.service;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,52 +17,48 @@ public class ServiceController
 
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody Service service)
+    public ResponseEntity<ServiceDTO> create(@Valid @RequestBody ServiceDTO categoryDTO)
     {
-        return ResponseEntity.ok(serviceService.save(service));
+        serviceService.save(ServiceMapper.INSTANCE.toService(categoryDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryDTO);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<Service>> getAll()
+    public ResponseEntity<List<ServiceDTO>> getAll()
     {
-        return ResponseEntity.ok(serviceService.findAll());
+        return ResponseEntity.ok(ServiceMapper.INSTANCE.toServiceDTOs(serviceService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Service> findById(@PathVariable(value = "id") int id)
+    public ResponseEntity<ServiceDTO> findById(@PathVariable(value = "id") int id)
     {
         Optional<Service> service = serviceService.findById(id);
+
         if(!service.isPresent())
         {
             ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(service.get());
+        return ResponseEntity.ok(ServiceMapper.INSTANCE.toServiceDTO(service.get()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Service> update(@PathVariable(value = "id") int id, @Valid @RequestBody Service service)
+    public ResponseEntity<ServiceDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody ServiceDTO serviceDTO)
     {
-        if(!serviceService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
+        Service service = ServiceMapper.INSTANCE.toService(serviceDTO);
+        service.setId(id);
+        serviceService.save(service);
 
-        return ResponseEntity.ok(serviceService.save(service));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(serviceDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
-        if(!serviceService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
-
         serviceService.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 

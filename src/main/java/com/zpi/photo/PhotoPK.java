@@ -1,10 +1,13 @@
 package com.zpi.photo;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 @Embeddable
 public class PhotoPK implements Serializable
 {
@@ -24,21 +27,4 @@ public class PhotoPK implements Serializable
         this.value = value;
     }
 
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if(this == o)
-            return true;
-        if(o == null || getClass() != o.getClass())
-            return false;
-        PhotoPK photoPK = (PhotoPK) o;
-        return id == photoPK.id && Objects.equals(value, photoPK.value);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(id, value);
-    }
 }

@@ -1,8 +1,7 @@
 package com.zpi.category;
 
-import com.zpi.service.Service;
-import com.zpi.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,53 +18,69 @@ public class CategoryController
 
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody Category category)
+    public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryDTO categoryDTO)
     {
-        return ResponseEntity.ok(categoryService.save(category));
+        categoryService.save(CategoryMapper.INSTANCE.toCategory(categoryDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryDTO);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<Category>> getAll()
+    public ResponseEntity<List<CategoryDTO>> getAll()
     {
-        return ResponseEntity.ok(categoryService.findAll());
+        return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTOs(categoryService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> findById(@PathVariable(value = "id") int id)
+    public ResponseEntity<CategoryDTO> findById(@PathVariable(value = "id") String id)
     {
         Optional<Category> category = categoryService.findById(id);
+
         if(!category.isPresent())
         {
             ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(category.get());
+        return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(category.get()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> update(@PathVariable(value = "id") int id, @Valid @RequestBody Category category)
+    public ResponseEntity<CategoryDTO> update(@PathVariable(value = "id") String id, @Valid @RequestBody CategoryDTO categoryDTO)
     {
-        if(!categoryService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
+        Category category = CategoryMapper.INSTANCE.toCategory(categoryDTO);
+        category.setName(id);
+        categoryService.save(category);
 
-        return ResponseEntity.ok(categoryService.save(category));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(categoryDTO);
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable(value = "id") int id)
+    public ResponseEntity delete(@PathVariable(value = "id") String id)
     {
-        if(!categoryService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
-
         categoryService.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

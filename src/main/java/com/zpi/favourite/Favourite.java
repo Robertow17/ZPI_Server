@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zpi.service.Service;
 import com.zpi.user.User;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -26,7 +29,14 @@ public class Favourite
     @JsonManagedReference
     private User user;
 
-    private boolean isFavourite;
+    @Column(columnDefinition = "boolean default true")
+    private boolean isFavourite = true;
 
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }
 

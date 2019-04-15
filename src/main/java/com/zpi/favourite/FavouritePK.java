@@ -1,10 +1,13 @@
 package com.zpi.favourite;
 
 
+import lombok.Data;
+
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 @Embeddable
 public class FavouritePK implements Serializable
 {
@@ -22,21 +25,5 @@ public class FavouritePK implements Serializable
     }
 
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if(this == o)
-            return true;
-        if(o == null || getClass() != o.getClass())
-            return false;
-        FavouritePK that = (FavouritePK) o;
-        return id == that.id && Objects.equals(login, that.login);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(id, login);
-    }
 }
 

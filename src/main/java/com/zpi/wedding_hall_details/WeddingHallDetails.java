@@ -2,8 +2,11 @@ package com.zpi.wedding_hall_details;
 
 import com.zpi.service.Service;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Data
@@ -25,5 +28,11 @@ public class WeddingHallDetails
 
     @Column(nullable = true)
     private int maxNumberOfGuests;
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 
 }

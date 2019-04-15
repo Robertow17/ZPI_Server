@@ -20,9 +20,9 @@ public class CategoryService
     }
 
 
-    public Optional<Category> findById(int id)
+    public Optional<Category> findById(String id)
     {
-        return categoryRepository.findById(id);
+        return categoryRepository.findByName(id);
 
     }
 
@@ -33,9 +33,9 @@ public class CategoryService
     }
 
 
-    public void deleteById(int id)
+    public void deleteById(String id)
     {
-        categoryRepository.deleteById(id);
+        categoryRepository.deleteByName(id);
     }
 
 

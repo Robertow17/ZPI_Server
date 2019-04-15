@@ -1,8 +1,7 @@
 package com.zpi.subcategory;
 
-import com.zpi.category.Category;
-import com.zpi.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,52 +20,48 @@ public class SubcategoryController
 
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody Subcategory subcategory)
+    public ResponseEntity<SubcategoryDTO> create(@Valid @RequestBody SubcategoryDTO subcategoryDTO)
     {
-        return ResponseEntity.ok(subcategoryService.save(subcategory));
+        subcategoryService.save(SubcategoryMapper.INSTANCE.toSubcategory(subcategoryDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(subcategoryDTO);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<Subcategory>> getAll()
+    public ResponseEntity<List<SubcategoryDTO>> getAll()
     {
-        return ResponseEntity.ok(subcategoryService.findAll());
+        return ResponseEntity.ok(SubcategoryMapper.INSTANCE.toSubcategoryDTOs(subcategoryService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Subcategory> findById(@PathVariable(value = "id") int id)
+    public ResponseEntity<SubcategoryDTO> findById(@PathVariable(value = "id") String id)
     {
         Optional<Subcategory> subcategory = subcategoryService.findById(id);
+
         if(!subcategory.isPresent())
         {
             ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(subcategory.get());
+        return ResponseEntity.ok(SubcategoryMapper.INSTANCE.toSubcategoryDTO(subcategory.get()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Subcategory> update(@PathVariable(value = "id") int id, @Valid @RequestBody Subcategory subcategory)
+    public ResponseEntity<SubcategoryDTO> update(@PathVariable(value = "id") String id, @Valid @RequestBody SubcategoryDTO subcategoryDTO)
     {
-        if(!subcategoryService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
+        Subcategory subcategory = SubcategoryMapper.INSTANCE.toSubcategory(subcategoryDTO);
+        subcategory.setName(id);
+        subcategoryService.save(subcategory);
 
-        return ResponseEntity.ok(subcategoryService.save(subcategory));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(subcategoryDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable(value = "id") int id)
+    public ResponseEntity delete(@PathVariable(value = "id") String id)
     {
-        if(!subcategoryService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
-
         subcategoryService.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 }

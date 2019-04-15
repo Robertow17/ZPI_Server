@@ -1,8 +1,7 @@
 package com.zpi.transport_details;
 
-import com.zpi.category.Category;
-import com.zpi.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +19,21 @@ public class TransportDetailsController
 
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody TransportDetails transportDetails)
+    public ResponseEntity<TransportDetailsDTO> create(@Valid @RequestBody TransportDetailsDTO transportDetailsDTO)
     {
-        return ResponseEntity.ok(transportDetailsService.save(transportDetails));
+        transportDetailsService.save(TransportDetailsMapper.INSTANCE.toTransportDetails(transportDetailsDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transportDetailsDTO);
     }
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<TransportDetails>> getAll()
+    public ResponseEntity<List<TransportDetailsDTO>> getAll()
     {
-        return ResponseEntity.ok(transportDetailsService.findAll());
+        return ResponseEntity.ok(TransportDetailsMapper.INSTANCE.toTransportDetailsDTOs(transportDetailsService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransportDetails> findById(@PathVariable(value = "id") int id)
+    public ResponseEntity<TransportDetailsDTO> findById(@PathVariable(value = "id") int id)
     {
         Optional<TransportDetails> transportDetails = transportDetailsService.findById(id);
         if(!transportDetails.isPresent())
@@ -41,31 +41,25 @@ public class TransportDetailsController
             ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(transportDetails.get());
+        return ResponseEntity.ok(TransportDetailsMapper.INSTANCE.toTransportDetailsDTO(transportDetails.get()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransportDetails> update(@PathVariable(value = "id") int id, @Valid @RequestBody TransportDetails transportDetails)
+    public ResponseEntity<TransportDetailsDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody TransportDetailsDTO transportDetailsDTO)
     {
-        if(!transportDetailsService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
+        TransportDetails transportDetails = TransportDetailsMapper.INSTANCE.toTransportDetails(transportDetailsDTO);
+        transportDetails.setId(id);
+        transportDetailsService.save(transportDetails);
 
-        return ResponseEntity.ok(transportDetailsService.save(transportDetails));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(transportDetailsDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
-        if(!transportDetailsService.findById(id).isPresent())
-        {
-            ResponseEntity.badRequest().build();
-        }
-
         transportDetailsService.deleteById(id);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
 

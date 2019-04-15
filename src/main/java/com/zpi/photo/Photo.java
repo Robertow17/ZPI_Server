@@ -3,8 +3,11 @@ package com.zpi.photo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zpi.service.Service;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Data
@@ -21,5 +24,9 @@ public class Photo
     @JsonManagedReference
     private Service service;
 
+    @CreationTimestamp
+    private Date createdAt;
 
+    @UpdateTimestamp
+    private Date updatedAt;
 }

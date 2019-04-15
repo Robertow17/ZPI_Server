@@ -1,9 +1,5 @@
 package com.zpi.photo;
 
-
-import com.zpi.favourite.Favourite;
-import com.zpi.favourite.FavouritePK;
-import com.zpi.favourite.FavouriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
