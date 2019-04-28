@@ -44,7 +44,7 @@ public class TransportDetailsController
         return ResponseEntity.ok(TransportDetailsMapper.INSTANCE.toTransportDetailsDTO(transportDetails.get()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<TransportDetailsDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody TransportDetailsDTO transportDetailsDTO)
     {
         TransportDetails transportDetails = TransportDetailsMapper.INSTANCE.toTransportDetails(transportDetailsDTO);
@@ -54,7 +54,7 @@ public class TransportDetailsController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(transportDetailsDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
         transportDetailsService.deleteById(id);

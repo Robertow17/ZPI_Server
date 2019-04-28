@@ -44,7 +44,7 @@ public class WeddingHallDetailsController
         return ResponseEntity.ok(WeddingHallDetailsMapper.INSTANCE.toWeddingHallDTO(service.get()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<WeddingHallDetailsDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody WeddingHallDetailsDTO weddingHallDetailsDTO)
     {
         WeddingHallDetails weddingHallDetails = WeddingHallDetailsMapper.INSTANCE.toWeddingHall(weddingHallDetailsDTO);
@@ -54,7 +54,7 @@ public class WeddingHallDetailsController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(weddingHallDetailsDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
         weddingHallDetailsService.deleteById(id);

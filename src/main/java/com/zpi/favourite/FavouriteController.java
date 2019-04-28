@@ -46,7 +46,7 @@ public class FavouriteController
         return ResponseEntity.ok(FavouriteMapper.INSTANCE.toFavouriteDTO(favourite.get()));
     }
 
-    @PutMapping("/{id}/{login}")
+    @PutMapping("/update/{id}/{login}")
     public ResponseEntity<FavouriteDTO> update(@PathVariable(value = "id") int idService, @PathVariable(value = "login") String login, @Valid @RequestBody FavouriteDTO favouriteDTO)
     {
         Favourite favourite = FavouriteMapper.INSTANCE.toFavourite(favouriteDTO);
@@ -56,7 +56,7 @@ public class FavouriteController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(favouriteDTO);
     }
 
-    @DeleteMapping("/{id}/{login}")
+    @DeleteMapping("/delete/{id}/{login}")
     public ResponseEntity delete(@PathVariable(value = "id") int idService, @PathVariable(value = "login") String login)
     {
         favouriteService.deleteById(idService, login);

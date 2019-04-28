@@ -42,7 +42,7 @@ public class ServiceController
         return ResponseEntity.ok(ServiceMapper.INSTANCE.toServiceDTO(service.get()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ServiceDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody ServiceDTO serviceDTO)
     {
         Service service = ServiceMapper.INSTANCE.toService(serviceDTO);
@@ -52,7 +52,7 @@ public class ServiceController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(serviceDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
         serviceService.deleteById(id);

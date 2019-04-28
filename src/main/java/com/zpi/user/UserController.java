@@ -46,7 +46,7 @@ public class UserController
         return ResponseEntity.ok(UserMapper.INSTANCE.toUserDTO(user.get()));
     }
 
-    @PutMapping("/{login}")
+    @PutMapping("/update/{login}")
     public ResponseEntity<UserDTO> update(@PathVariable(value = "login") String login, @Valid @RequestBody UserDTO userDTO)
     {
         User user = UserMapper.INSTANCE.toUser(userDTO);
@@ -56,7 +56,7 @@ public class UserController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDTO);
     }
 
-    @DeleteMapping("/{login}")
+    @DeleteMapping("/delete/{login}")
     public ResponseEntity delete(@PathVariable(value = "login") String login)
     {
         userService.deleteById(login);

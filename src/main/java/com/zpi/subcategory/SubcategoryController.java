@@ -46,7 +46,7 @@ public class SubcategoryController
         return ResponseEntity.ok(SubcategoryMapper.INSTANCE.toSubcategoryDTO(subcategory.get()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<SubcategoryDTO> update(@PathVariable(value = "id") String id, @Valid @RequestBody SubcategoryDTO subcategoryDTO)
     {
         Subcategory subcategory = SubcategoryMapper.INSTANCE.toSubcategory(subcategoryDTO);
@@ -56,7 +56,7 @@ public class SubcategoryController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(subcategoryDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") String id)
     {
         subcategoryService.deleteById(id);

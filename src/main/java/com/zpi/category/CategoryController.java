@@ -44,7 +44,7 @@ public class CategoryController
         return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(category.get()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<CategoryDTO> update(@PathVariable(value = "id") String id, @Valid @RequestBody CategoryDTO categoryDTO)
     {
         Category category = CategoryMapper.INSTANCE.toCategory(categoryDTO);
@@ -55,7 +55,7 @@ public class CategoryController
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") String id)
     {
         categoryService.deleteById(id);

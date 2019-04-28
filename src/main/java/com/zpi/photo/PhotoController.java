@@ -46,7 +46,7 @@ public class PhotoController
         return ResponseEntity.ok(PhotoMapper.INSTANCE.toPhotoDTO(photo.get()));
     }
 
-    @PutMapping("/{id}/{value}")
+    @PutMapping("/update/{id}/{value}")
     public ResponseEntity<PhotoDTO> update(@PathVariable(value = "id") int idService, @PathVariable(value = "value") String value, @Valid @RequestBody PhotoDTO photoDTO)
     {
         Photo photo = PhotoMapper.INSTANCE.toPhoto(photoDTO);
@@ -56,7 +56,7 @@ public class PhotoController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(photoDTO);
     }
 
-    @DeleteMapping("/{id}/{value}")
+    @DeleteMapping("/delete/{id}/{value}")
     public ResponseEntity delete(@PathVariable(value = "id") int idService, @PathVariable(value = "value") String value)
     {
         photoService.deleteById(idService, value);
