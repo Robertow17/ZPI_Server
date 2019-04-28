@@ -2,7 +2,7 @@ package com.zpi.transport_details;
 
 
 
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

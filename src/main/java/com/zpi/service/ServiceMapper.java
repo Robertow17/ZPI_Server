@@ -1,14 +1,6 @@
 package com.zpi.service;
 
-
-import com.zpi.category.CategoryDTO;
-import com.zpi.subcategory.SubcategoryDTO;
-import com.zpi.transport_details.TransportDetailsDTO;
-import com.zpi.wedding_hall_details.WeddingHallDetailsDTO;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -27,12 +19,15 @@ public interface ServiceMapper
             @Mapping(target="description", source="description"),
             @Mapping(target="phoneNumber", source="phoneNumber"),
             @Mapping(target="email", source="email"),
-            @Mapping(target="category", source="category.name"),
-            @Mapping(target="subcategory", source="subcategory.name"),
+            @Mapping(target="category", source="category"),
+            @Mapping(target="subcategory", source="subcategory"),
             @Mapping(target="weddingHallDetails", source="weddingHallDetails"),
-            @Mapping(target="transportDetails", source="transportDetails")
+            @Mapping(target="transportDetails", source="transportDetails"),
+            @Mapping(target="photos", source="photos")
     })
     ServiceDTO toServiceDTO(Service service);
+
+
     List<ServiceDTO> toServiceDTOs(List<Service> services);
 
     @InheritInverseConfiguration

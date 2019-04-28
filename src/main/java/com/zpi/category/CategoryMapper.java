@@ -1,10 +1,7 @@
 package com.zpi.category;
 
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,9 +18,8 @@ public interface CategoryMapper
     })
     CategoryDTO toCategoryDTO(Category category);
 
-    @InheritInverseConfiguration
     Category toCategory(CategoryDTO categoryDTO);
 
-
+    @InheritConfiguration
     List<CategoryDTO> toCategoryDTOs(List<Category> categories);
 }

@@ -16,13 +16,12 @@ public class ServiceController
     private ServiceService serviceService;
 
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ServiceDTO> create(@Valid @RequestBody ServiceDTO categoryDTO)
     {
         serviceService.save(ServiceMapper.INSTANCE.toService(categoryDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryDTO);
     }
-
 
     @GetMapping("/all")
     public ResponseEntity<List<ServiceDTO>> getAll()

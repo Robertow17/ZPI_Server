@@ -1,9 +1,6 @@
 package com.zpi.favourite;
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,11 +11,13 @@ public interface FavouriteMapper
     FavouriteMapper INSTANCE = Mappers.getMapper(FavouriteMapper.class);
 
 
-    @Mappings({
-            @Mapping(target="id", source="id"),
+   @Mappings({
             @Mapping(target="favourite", source="favourite"),
+           @Mapping(target="user", source="user"),
+           @Mapping(target="service", source="service")
     })
     FavouriteDTO toFavouriteDTO(Favourite favourite);
+
     List<FavouriteDTO> toFavouriteDTOs(List<Favourite> favourites);
 
     @InheritInverseConfiguration

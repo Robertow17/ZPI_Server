@@ -19,7 +19,7 @@ public class SubcategoryController
     private SubcategoryService subcategoryService;
 
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<SubcategoryDTO> create(@Valid @RequestBody SubcategoryDTO subcategoryDTO)
     {
         subcategoryService.save(SubcategoryMapper.INSTANCE.toSubcategory(subcategoryDTO));

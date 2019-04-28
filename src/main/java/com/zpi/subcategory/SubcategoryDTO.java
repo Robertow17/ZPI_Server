@@ -1,6 +1,5 @@
 package com.zpi.subcategory;
 
-
 import lombok.Data;
 
 

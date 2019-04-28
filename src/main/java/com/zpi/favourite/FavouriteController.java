@@ -19,7 +19,7 @@ public class FavouriteController
     private FavouriteService favouriteService;
 
 
-    @PostMapping
+    @PostMapping(("/add"))
     public ResponseEntity<FavouriteDTO> create(@Valid @RequestBody FavouriteDTO favouriteDTO)
     {
         favouriteService.save(FavouriteMapper.INSTANCE.toFavourite(favouriteDTO));

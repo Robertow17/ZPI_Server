@@ -17,8 +17,7 @@ public class WeddingHallDetailsController
     private WeddingHallDetailsService weddingHallDetailsService;
 
 
-
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<WeddingHallDetailsDTO> create(@Valid @RequestBody WeddingHallDetailsDTO weddingHallDetailsDTO)
     {
         weddingHallDetailsService.save(WeddingHallDetailsMapper.INSTANCE.toWeddingHall(weddingHallDetailsDTO));

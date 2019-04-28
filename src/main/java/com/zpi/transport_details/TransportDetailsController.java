@@ -18,7 +18,7 @@ public class TransportDetailsController
     private TransportDetailsService transportDetailsService;
 
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<TransportDetailsDTO> create(@Valid @RequestBody TransportDetailsDTO transportDetailsDTO)
     {
         transportDetailsService.save(TransportDetailsMapper.INSTANCE.toTransportDetails(transportDetailsDTO));

@@ -19,9 +19,7 @@ public class PhotoController
     @Autowired
     private PhotoService photoService;
 
-
-
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<PhotoDTO> create(@Valid @RequestBody PhotoDTO photoDTO)
     {
         photoService.save(PhotoMapper.INSTANCE.toPhoto(photoDTO));

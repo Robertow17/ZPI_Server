@@ -1,10 +1,7 @@
 package com.zpi.subcategory;
 
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -20,8 +17,8 @@ public interface SubcategoryMapper
     })
     SubcategoryDTO toSubcategoryDTO(Subcategory subcategory);
 
-    @InheritInverseConfiguration
     Subcategory toSubcategory(SubcategoryDTO subcategoryDTO);
 
+    @InheritConfiguration
     List<SubcategoryDTO> toSubcategoryDTOs(List<Subcategory> subcategories);
 }

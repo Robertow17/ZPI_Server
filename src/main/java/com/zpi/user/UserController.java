@@ -19,7 +19,7 @@ public class UserController
     private UserService userService;
 
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO userDTO)
     {
         userService.save(UserMapper.INSTANCE.toUser(userDTO));

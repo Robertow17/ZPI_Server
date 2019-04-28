@@ -17,7 +17,7 @@ public class CategoryController
     private CategoryService categoryService;
 
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryDTO categoryDTO)
     {
         categoryService.save(CategoryMapper.INSTANCE.toCategory(categoryDTO));
