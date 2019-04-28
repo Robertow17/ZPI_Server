@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class PhotoDTO
 {
-    private PhotoPK id;
+    private String value;
 
 }
