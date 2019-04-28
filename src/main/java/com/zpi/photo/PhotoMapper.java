@@ -11,11 +11,6 @@ public interface PhotoMapper
 
     PhotoMapper INSTANCE = Mappers.getMapper(PhotoMapper.class);
 
-
-    @Mappings({
-            @Mapping(target="value", source="id.value")
-
-    })
     PhotoDTO toPhotoDTO(Photo photo);
     List<PhotoDTO> toPhotoDTOs(List<Photo> photos);
     Photo toPhoto(PhotoDTO photoDTO);
