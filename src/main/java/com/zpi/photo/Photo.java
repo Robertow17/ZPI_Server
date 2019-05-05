@@ -9,12 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Data
 @Entity
-public class Photo
-{
-
+public class Photo {
     @EmbeddedId
     private PhotoPK id;
 

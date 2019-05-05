@@ -21,9 +21,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Service
-{
-
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -66,11 +64,9 @@ public class Service
     @JsonBackReference
     private List<Favourite> favourites = new ArrayList<>();
 
-
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
-
 }
