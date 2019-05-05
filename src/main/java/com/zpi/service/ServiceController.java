@@ -1,4 +1,5 @@
 package com.zpi.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/services")
-public class ServiceController
-{
+public class ServiceController {
     @Autowired
     private ServiceService serviceService;
 
@@ -24,18 +24,15 @@ public class ServiceController
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ServiceDTO>> getAll()
-    {
+    public ResponseEntity<List<ServiceDTO>> getAll() {
         return ResponseEntity.ok(ServiceMapper.INSTANCE.toServiceDTOs(serviceService.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServiceDTO> findById(@PathVariable(value = "id") int id)
-    {
+    public ResponseEntity<ServiceDTO> findById(@PathVariable(value = "id") int id) {
         Optional<Service> service = serviceService.findById(id);
 
-        if(!service.isPresent())
-        {
+        if (!service.isPresent()) {
             ResponseEntity.badRequest().build();
         }
 
@@ -52,6 +49,7 @@ public class ServiceController
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(serviceDTO);
     }
 
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
@@ -59,6 +57,7 @@ public class ServiceController
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+}
 
 
    /* //TEST
@@ -69,4 +68,4 @@ public class ServiceController
 
     }*/
 
-}
+
