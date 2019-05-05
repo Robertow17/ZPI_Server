@@ -33,10 +33,10 @@ public class PhotoController
         return ResponseEntity.ok(PhotoMapper.INSTANCE.toPhotoDTOs(photoService.findAll()));
     }
 
-    @GetMapping("/{id}/{value}")
-    public ResponseEntity<PhotoDTO> findById(@PathVariable(value = "id") int idService, @PathVariable(value = "value") String value)
+    @GetMapping("/{id}")
+    public ResponseEntity<PhotoDTO> findById(@PathVariable(value = "id") int id)
     {
-        Optional<Photo> photo = photoService.findById(idService, value);
+        Optional<Photo> photo = photoService.findById(id);
 
         if(!photo.isPresent())
         {
@@ -46,20 +46,22 @@ public class PhotoController
         return ResponseEntity.ok(PhotoMapper.INSTANCE.toPhotoDTO(photo.get()));
     }
 
-    @PutMapping("/update/{id}/{value}")
-    public ResponseEntity<PhotoDTO> update(@PathVariable(value = "id") int idService, @PathVariable(value = "value") String value, @Valid @RequestBody PhotoDTO photoDTO)
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PhotoDTO> update(@PathVariable(value = "id") int id, @Valid @RequestBody PhotoDTO photoDTO)
     {
         Photo photo = PhotoMapper.INSTANCE.toPhoto(photoDTO);
-        photo.setId(new PhotoPK(idService, value));
+        photo.setId(id);
         photoService.save(photo);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(photoDTO);
     }
 
-    @DeleteMapping("/delete/{id}/{value}")
-    public ResponseEntity delete(@PathVariable(value = "id") int idService, @PathVariable(value = "value") String value)
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable(value = "id") int id)
     {
-        photoService.deleteById(idService, value);
+        photoService.deleteById(id);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }

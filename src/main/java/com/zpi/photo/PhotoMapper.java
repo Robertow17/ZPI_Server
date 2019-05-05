@@ -11,8 +11,11 @@ public interface PhotoMapper
 
     PhotoMapper INSTANCE = Mappers.getMapper(PhotoMapper.class);
 
+
     PhotoDTO toPhotoDTO(Photo photo);
+
     List<PhotoDTO> toPhotoDTOs(List<Photo> photos);
+
     Photo toPhoto(PhotoDTO photoDTO);
 
 }

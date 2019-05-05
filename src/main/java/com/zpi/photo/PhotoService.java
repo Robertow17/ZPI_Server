@@ -19,9 +19,9 @@ public class PhotoService
     }
 
 
-    public Optional<Photo> findById(int serviceId, String value)
+    public Optional<Photo> findById(int id)
     {
-        return photoRepository.findById(new PhotoPK(serviceId, value));
+        return photoRepository.findById(id);
 
     }
 
@@ -32,9 +32,9 @@ public class PhotoService
     }
 
 
-    public void deleteById(int serviceId, String value)
+    public void deleteById(int id)
     {
-        photoRepository.deleteById(new PhotoPK(serviceId, value));
+        photoRepository.deleteById(id);
     }
 
 }
