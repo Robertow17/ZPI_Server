@@ -1,17 +1,19 @@
 package com.zpi.photosManager;
 
+import com.zpi.photo.PhotoDTO;
+import com.zpi.photo.PhotoMapper;
+import com.zpi.photo.PhotoService;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.imageio.ImageIO;
+import javax.swing.text.html.Option;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class PhotoManager {
     public static Optional<byte[]> getImage(int photoId, int serviceId) {
@@ -21,34 +23,42 @@ public class PhotoManager {
             return Optional.empty();
         }
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ImageIO.write(ImageIO.read(photo), "jpg", outputStream);
+            return Optional.of(outputStream.toByteArray());
         } catch (IOException exception) {
             return Optional.empty();
         }
-
-        return Optional.of(outputStream.toByteArray());
     }
 
-    public static boolean saveImage(int photoId, int serviceId, byte[] photo) {
+    public static Optional<Integer> saveImage(int serviceId, MultipartFile photo, PhotoService photoService) {
         try {
-            RenderedImage image = ImageIO.read(new ByteArrayInputStream(photo));
+            int photoId = saveImageToDB(serviceId, photoService);
+            RenderedImage image = ImageIO.read(new ByteArrayInputStream(photo.getBytes()));
             ImageIO.write(image, "jpg", new File(PhotoPathManager.getPathToSpecificPhoto(photoId, serviceId)));
 
-            return true;
+            return Optional.of(photoId);
         } catch (IOException exception) {
-            return false;
+            exception.printStackTrace();
+            return Optional.empty();
         }
     }
 
-    public static boolean deleteImage(int photoId, int serviceId) {
+    private static int saveImageToDB(int serviceId, PhotoService photoService) {
+        PhotoDTO photoDTO = new PhotoDTO();
+        photoDTO.setIdService(serviceId);
+        return photoService.save(PhotoMapper.INSTANCE.toPhoto(photoDTO)).getId();
+    }
+
+    public static boolean deleteImage(int photoId, int serviceId, PhotoService photoService) {
         File photo = new File(PhotoPathManager.getPathToSpecificPhoto(photoId, serviceId));
 
         if (!photo.exists()) return false;
 
         try {
-            Files.deleteIfExists(photo.toPath());
+            photoService.deleteById(photoId);
+            Files.delete(photo.toPath());
 
             return true;
         } catch (Exception exception) {
