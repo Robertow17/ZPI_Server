@@ -1,5 +1,6 @@
 package com.zpi.wedding_hall_details;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zpi.service.Service;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,9 +19,7 @@ public class WeddingHallDetails
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_service")
-    @MapsId
+    @OneToOne(mappedBy = "weddingHallDetails", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Service service;
 
     @Column(nullable = true)

@@ -1,7 +1,10 @@
 package com.zpi.wedding_hall_details;
 
 
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 

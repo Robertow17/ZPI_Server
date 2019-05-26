@@ -8,6 +8,7 @@ import com.zpi.favourite.Favourite;
 import com.zpi.photo.Photo;
 import com.zpi.subcategory.Subcategory;
 import com.zpi.transport_details.TransportDetails;
+import com.zpi.account.Account;
 import com.zpi.wedding_hall_details.WeddingHallDetails;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +22,9 @@ import java.util.List;
 
 @Data
 @Entity
-public class Service {
+public class Service
+{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -39,24 +42,25 @@ public class Service {
     @Column(length = 50)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subcategory_name", nullable = true)
     @JsonManagedReference
     private Subcategory subcategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_name", nullable = false)
     @JsonManagedReference
     private Category category;
 
-    @OneToOne(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_wedding_hall_details")
+    @MapsId
     private WeddingHallDetails weddingHallDetails;
 
-    @OneToOne(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private TransportDetails transportDetails;
 
-    @OneToMany(mappedBy= "service",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy= "service",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Photo> photos = new ArrayList<>();
 
@@ -64,9 +68,14 @@ public class Service {
     @JsonBackReference
     private List<Favourite> favourites = new ArrayList<>();
 
+    @OneToMany(mappedBy= "service",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Account> accounts = new ArrayList<>();
+
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
+
 }

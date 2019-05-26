@@ -1,5 +1,6 @@
 package com.zpi.service;
 
+import com.zpi.photo.PhotoMapper;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -27,7 +28,7 @@ public interface ServiceMapper
     })
     ServiceDTO toServiceDTO(Service service);
 
-
+    @InheritConfiguration
     List<ServiceDTO> toServiceDTOs(List<Service> services);
 
     @InheritInverseConfiguration

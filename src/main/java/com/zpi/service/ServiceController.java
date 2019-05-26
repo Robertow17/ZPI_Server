@@ -44,6 +44,7 @@ public class ServiceController {
     {
         Service service = ServiceMapper.INSTANCE.toService(serviceDTO);
         service.setId(id);
+
         serviceService.save(service);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(serviceDTO);
