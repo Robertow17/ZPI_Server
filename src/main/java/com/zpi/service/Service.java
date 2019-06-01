@@ -54,10 +54,10 @@ public class Service
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_wedding_hall_details")
-    @MapsId
     private WeddingHallDetails weddingHallDetails;
 
-    @OneToOne(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_transport_details")
     private TransportDetails transportDetails;
 
     @OneToMany(mappedBy= "service",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)

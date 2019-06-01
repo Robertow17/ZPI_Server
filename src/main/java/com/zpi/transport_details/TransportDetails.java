@@ -21,9 +21,7 @@ public class TransportDetails
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_service")
-    @MapsId
+    @OneToOne(mappedBy = "weddingHallDetails", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Service service;
 
     @Column(nullable = true)
